@@ -1,0 +1,15 @@
+# Your private setup
+.env
+persona.txt
+*.private.svg
+
+# Downloads and runtime
+.venv/
+models/*.onnx
+models/*.bin
+browser/node_modules/
+browser/out/
+cwd/
+logs/
+__pycache__/
+*.wav

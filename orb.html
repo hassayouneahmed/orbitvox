@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OrbitVox</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #04070d; overflow: hidden; }
+  body { display: grid; place-items: center; }
+  #aura, #logo { grid-area: 1 / 1; width: min(80vw, 80vh); aspect-ratio: 1; }
+  #aura { border-radius: 50%; will-change: transform, opacity; }
+  #logo svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  #logo svg > rect { display: none; }  /* drop a square app-icon background, keep the rings */
+  /* Logo contract: elements with class spin / spinr rotate, the last .pulse is the core that swells.
+     Forced on so the rings keep moving even when the OS turns animations off. */
+  #logo .spin  { animation: spin 24s linear infinite; }
+  #logo .spinr { animation: spin 16s linear infinite reverse; }
+  #logo .pulse { animation: pulse 3.2s ease-in-out infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%, 100% { opacity: .85; } 50% { opacity: 1; } }
+  #status { position: fixed; bottom: 16px; width: 100%; text-align: center;
+            font: 13px system-ui, sans-serif; color: #4b5b70; letter-spacing: .08em; }
+</style>
+</head>
+<body>
+<div id="aura"></div>
+<div id="logo"></div>
+<div id="status">connecting…</div>
+<script>
+const aura = document.getElementById('aura'), logo = document.getElementById('logo'),
+      status = document.getElementById('status');
+let target = { you: 0, bot: 0 }, cur = { you: 0, bot: 0 }, spins = [], core = null;
+
+// Inline the SVG so its rings can be driven from here. Use only logos you trust (no scripts).
+fetch('/logo.svg').then(r => r.text()).then(svg => {
+  logo.innerHTML = svg;
+  const el = logo.querySelector('svg');
+  // CSS animations exist only after the first style pass, so collect them a frame later.
+  requestAnimationFrame(() =>
+    spins = el.getAnimations({ subtree: true }).filter(a => a.animationName === 'spin'));
+  const pulses = el.querySelectorAll('.pulse');
+  core = pulses[pulses.length - 1];
+});
+
+// Levels come from bot.py; EventSource reconnects by itself if the bot restarts.
+const es = new EventSource('/levels');
+es.onmessage = e => { target = JSON.parse(e.data); status.textContent = ''; };
+es.onerror = () => { status.textContent = 'waiting for the assistant…'; target = { you: 0, bot: 0 }; };
+
+// Speech RMS sits around 0.01–0.15; sqrt + gain spreads it over 0..1.
+const shape = v => Math.min(1, Math.sqrt(v) * 2.8);
+
+function frame() {
+  for (const k of ['you', 'bot']) {
+    const v = shape(target[k] || 0);
+    cur[k] += (v - cur[k]) * (v > cur[k] ? 0.45 : 0.12);  // fast attack, slow release
+  }
+  const s = cur.bot;
+  // Mic noise sits near 0.1; ignore "you" while the assistant speaks, as the bot does.
+  const y = s < 0.1 ? Math.max(0, cur.you - 0.25) / 0.75 : 0;
+
+  for (const a of spins) a.playbackRate = 1 + s * 8;          // rings race while it talks
+  if (core) core.style.transform = `scale(${1 + s * 0.12})`;  // the core swells
+  logo.style.transform = `scale(${1 + s * 0.04})`;
+
+  const gold = `rgba(255,170,70,${0.10 + s * 0.45})`, blue = `rgba(70,190,255,${y * 0.5})`;
+  aura.style.background = `radial-gradient(circle, ${y > s ? blue : gold} 0%, transparent 62%)`;
+  aura.style.transform = `scale(${1.1 + s * 0.35 + y * 0.2})`;
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

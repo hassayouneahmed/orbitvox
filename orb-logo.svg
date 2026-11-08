@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<title>OrbitVox orb</title>
+<style>
+  .spin, .spinr, .pulse { transform-box: view-box; transform-origin: 512px 512px; }
+</style>
+<defs>
+  <radialGradient id="core" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#ffffff"/><stop offset=".3" stop-color="#ffe7b0"/>
+    <stop offset=".65" stop-color="#ffaa46"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="5" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+<g class="spin" filter="url(#glow)">
+  <circle cx="512" cy="512" r="400" fill="none" stroke="#ffb35c" stroke-width="6" stroke-dasharray="40 26" opacity=".75"/>
+  <circle cx="512" cy="112" r="14" fill="#ffd38a"/>
+</g>
+<g class="spinr" filter="url(#glow)">
+  <circle cx="512" cy="512" r="300" fill="none" stroke="#5fd0ff" stroke-width="4" stroke-dasharray="420 180" opacity=".8"/>
+  <circle cx="812" cy="512" r="10" fill="#9ae4ff"/>
+</g>
+<g class="spin">
+  <circle cx="512" cy="512" r="220" fill="none" stroke="#ffb35c" stroke-width="2" stroke-dasharray="4 14" opacity=".6"/>
+</g>
+<circle class="pulse" cx="512" cy="512" r="150" fill="url(#core)" filter="url(#glow)"/>
+</svg>
