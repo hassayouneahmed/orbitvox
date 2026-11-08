@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-11-08)
 First public version.
 - Voice loop: local Whisper speech-to-text and local Kokoro voice, with a live orb page.
 - Brains: Claude (your own Claude Code login), OpenRouter, or any OpenAI-compatible server (Ollama, LM Studio).
