@@ -4,4 +4,5 @@ This project follows the [Contributor Covenant, version 2.1](https://www.contrib
 
 In short: be kind, assume good faith, welcome newcomers, and keep discussion about the work. Harassment, insults and personal attacks aren't tolerated.
 
-To report a problem, contact the maintainers privately through the email on their GitHub profile. Reports are handled in confidence.
+## Reporting
+Report a problem privately through the repository's Security tab → "Report a vulnerability", and start the title with **Conduct:**. Only the maintainers can read these reports, and they're handled in confidence. For a comment or issue that breaks the rules, you can also use GitHub's own "Report content" option on it.

@@ -339,6 +339,7 @@ main > section {
 .footer__brand { color: var(--color-ink); font-weight: 600; }
 .footer__credit { margin-left: auto; white-space: nowrap; }
 .footer__name { text-transform: none; color: var(--color-ink); }
+.footer__legal { margin: var(--space-lg) 0 0; max-width: 60ch; font-size: var(--text-micro); line-height: 1.6; color: var(--color-muted); }
 
 /* ---------- responsive ---------- */
 @media (max-width: 60rem) {

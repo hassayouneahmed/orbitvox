@@ -10,8 +10,11 @@ Thanks for helping. OrbitVox stays small on purpose, so the best changes are sho
 
 ## Before you open a PR
 1. `.\.venv\Scripts\python check_offline.py` passes (voice in, voice out).
-2. You ran `bot.py` and tried your change by voice, or say why you couldn't.
-3. If you changed `check_url`, test it with good and bad links (IPs, `localhost`, ports, `.exe`).
+2. `.\.venv\Scripts\python test_urls.py` passes (link rules). Add cases when you touch `check_url` or `auto_ok`.
+3. You ran `bot.py` and tried your change by voice, or say why you couldn't.
+
+## Dependency updates
+`@playwright/mcp` and the Python pins change only in a pull request of their own, with the release notes linked. Every `@playwright/mcp` bump gets a security review before merge: check the new tools it exposes and keep the allow and deny lists in `bot.py` current.
 
 ## Good first issues
 - Mac and Linux support (the mute key uses `msvcrt`; the deny-rule paths need checking).

@@ -163,7 +163,15 @@ def check_url(url):
         return host
 
 
-def auto_ok(host):
+HOPS = ("/redirect", "/url", "/releases/download", "/archive", "/raw")  # redirect and download paths
+
+
+def auto_ok(url, host):
+    """Open without asking only a known site with no second link hidden inside (redirects, downloads)."""
+    u = urlsplit(url)
+    rest = f"{u.path}?{u.query}".lower()
+    if "http" in rest or "%2f%2f" in rest or any(h in u.path.lower() for h in HOPS):
+        return False
     return any(host == d or host.endswith("." + d) for d in AUTO_OPEN)
 
 
@@ -208,16 +216,26 @@ async def page(request):
     return web.FileResponse(PAGES[request.path])
 
 
+ORB_PORT = int(os.getenv("ORB_PORT", "8765"))
+
+
+@web.middleware
+async def local_only(request, handler):
+    """Refuse any Host but our own, so a web page can't reach the orb through DNS rebinding."""
+    if request.host not in (f"127.0.0.1:{ORB_PORT}", f"localhost:{ORB_PORT}"):
+        raise web.HTTPForbidden()
+    return await handler(request)
+
+
 async def start_orb():
-    app = web.Application()
+    app = web.Application(middlewares=[local_only])
     for path in PAGES:
         app.router.add_get(path, page)
     app.router.add_get("/levels", levels)
     runner = web.AppRunner(app, handle_signals=False)
     await runner.setup()
-    port = int(os.getenv("ORB_PORT", "8765"))
-    await web.TCPSite(runner, "127.0.0.1", port).start()  # this computer only
-    print(f"Orb: http://127.0.0.1:{port}")
+    await web.TCPSite(runner, "127.0.0.1", ORB_PORT).start()  # this computer only
+    print(f"Orb: http://localhost:{ORB_PORT}")
 
 
 class ClaudeBrain(FrameProcessor):
@@ -371,7 +389,7 @@ class ClaudeBrain(FrameProcessor):
         if not host:
             log("OPEN refused", url)
             await self.say(f" I won't open that link{T}.")
-        elif auto_ok(host):
+        elif auto_ok(url, host):
             await self.open_link(url, host)
         else:
             self.pending = (url, time.monotonic())
@@ -451,6 +469,17 @@ class ClaudeBrain(FrameProcessor):
         self.create_task(self.turn(self.answer(text)))  # Claude keeps its own history; send only the new turn
 
 
+def on_this_network(host):
+    """True for localhost, loopback and private-range IPs (plain http is only OK there)."""
+    if host == "localhost" or host.endswith((".localhost", ".local")):
+        return True
+    try:
+        ip = ipaddress.ip_address(host)
+        return ip.is_loopback or ip.is_private
+    except ValueError:
+        return False
+
+
 def make_llm():
     """Plain-chat brains (no tools): OpenRouter, or any OpenAI-compatible server such as Ollama or LM Studio."""
     if BRAIN == "claude":
@@ -472,6 +501,10 @@ def make_llm():
         base = os.getenv("OPENAI_BASE_URL")
         if not base or not os.getenv("OPENAI_MODEL"):
             raise SystemExit("Set OPENAI_BASE_URL and OPENAI_MODEL in .env (see .env.example).")
+        u = urlsplit(base)
+        if u.scheme not in ("https", "http") or (u.scheme == "http" and not on_this_network(u.hostname or "")):
+            raise SystemExit("OPENAI_BASE_URL must be https, or http only for this computer / your local network.")
+        print(f"Brain: {u.hostname}. Everything you say, and the key, is sent there.")
         return OpenAILLMService(
             api_key=os.getenv("OPENAI_API_KEY") or "none",  # local servers accept any key
             base_url=base,

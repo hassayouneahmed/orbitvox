@@ -12,3 +12,8 @@ First public version.
 - Customisation: name, persona file, how it addresses you, voice, orb logo.
 - M key to mute the mic, and auto-mute while a video plays.
 - A log of every tool call and opened link.
+- Security hardening before release:
+  - redirect and download links on trusted sites need a spoken "yes";
+  - the `openai` brain refuses plain `http` outside your own network;
+  - the orb page refuses foreign host names;
+  - `test_urls.py` self-check.
