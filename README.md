@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <a href="https://hassayouneahmed.github.io/orbitvox/">Website</a> ·
+  <a href="https://orbitvox.github.io/">Website</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="SECURITY.md">Security model</a> ·
   <a href="CHANGELOG.md">Changelog</a>
@@ -49,7 +49,7 @@ Press <kbd>M</kbd> in the console to mute or unmute the mic.
 You need [Python 3.13](https://www.python.org/downloads/) and [Node.js 18+](https://nodejs.org/). For the Claude brain, you also need [Claude Code](https://docs.claude.com/en/docs/claude-code) logged in with **your own** account (run `claude` once).
 
 ```powershell
-git clone https://github.com/hassayouneahmed/orbitvox
+git clone https://github.com/orbitvox/orbitvox
 cd orbitvox
 py -3.13 -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt
