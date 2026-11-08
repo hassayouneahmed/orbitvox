@@ -13,3 +13,7 @@ cwd/
 logs/
 __pycache__/
 *.wav
+
+# Local tooling
+.claude/
+.hallmark/

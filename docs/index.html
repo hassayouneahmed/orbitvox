@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OrbitVox · a local voice for your AI agent</title>
+<meta name="description" content="OrbitVox gives your AI agent a voice on your own PC. Local speech-to-text and voice, your choice of brain, a live orb, and safety by design. Open source, MIT.">
+<meta property="og:title" content="OrbitVox · a local voice for your AI agent">
+<meta property="og:description" content="Talk to your agent. It talks back, searches the web, opens pages, and reads your notes. Open source, MIT.">
+<meta property="og:image" content="assets/banner.svg">
+<meta name="theme-color" content="#0b0d14">
+<link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav">
+  <a class="nav__brand" href="#top" aria-label="OrbitVox home">
+    <svg class="nav__mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" /><circle cx="16" cy="16" r="5" /></svg>
+    OrbitVox
+  </a>
+  <a class="nav__cta" href="https://github.com/hassayouneahmed/orbitvox">Star on GitHub <span aria-hidden="true">↗</span></a>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__copy">
+      <p class="eyebrow">Open source · MIT · Windows</p>
+      <h1 class="hero__title" id="hero-title">let your agent<br> <em>speak</em>&nbsp;out loud.</h1>
+      <p class="hero__lede">OrbitVox turns your speech into text and its answers into a voice, both on your own PC. The words go to the brain you choose: Claude, OpenRouter, or a local model.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="https://github.com/hassayouneahmed/orbitvox">Get it on GitHub</a>
+        <a class="btn btn--link" href="#start">Quick start <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    <figure class="orb" aria-label="The OrbitVox orb, the page OrbitVox shows while it listens and speaks">
+      <div class="orb__stage" id="orb">
+        <svg class="orb__svg" viewBox="0 0 1024 1024" aria-hidden="true">
+          <defs>
+            <radialGradient id="core-fill" cx="50%" cy="50%" r="50%">
+              <stop offset="0" class="stop-core-0"/><stop offset=".3" class="stop-core-1"/>
+              <stop offset=".65" class="stop-core-2"/><stop offset="1" class="stop-core-3"/>
+            </radialGradient>
+          </defs>
+          <g class="ring ring--outer"><circle cx="512" cy="512" r="400"/><circle class="ring__bead" cx="512" cy="112" r="14"/></g>
+          <g class="ring ring--inner"><circle cx="512" cy="512" r="300"/><circle class="ring__bead ring__bead--cool" cx="812" cy="512" r="10"/></g>
+          <g class="ring ring--dots"><circle cx="512" cy="512" r="220"/></g>
+          <circle class="orb__core" cx="512" cy="512" r="150" fill="url(#core-fill)"/>
+        </svg>
+      </div>
+      <ul class="callouts" aria-hidden="true">
+        <li class="callout callout--tl">Whisper · small · int8</li>
+        <li class="callout callout--tr">Kokoro · bm_george</li>
+        <li class="callout callout--bl">First word · ~1 s</li>
+        <li class="callout callout--br">Orb · localhost:8765</li>
+      </ul>
+    </figure>
+  </section>
+
+  <aside class="meter" aria-label="Audio formats">
+    <p class="meter__label">Mic in · 16 kHz</p>
+    <div class="meter__bars" id="meter"></div>
+    <p class="meter__label">Voice out · 24 kHz</p>
+  </aside>
+
+  <section class="demo" aria-labelledby="demo-title">
+    <div class="demo__head">
+      <h2 class="section__title" id="demo-title">a short evening with orbit.</h2>
+      <p class="section__lede">An illustrated session with the neutral assistant: the web, a link, a mode switch and a note. The line under each answer follows its voice, the same signal that drives the orb.</p>
+      <button class="btn btn--ghost" id="replay" type="button">Play the conversation</button>
+    </div>
+    <ol class="transcript" id="transcript" aria-live="polite">
+      <li data-who="you">What’s the weather in Paris right now?</li>
+      <li data-who="orbit">One moment.</li>
+      <li data-who="orbit">Twelve degrees and light rain, clearing by the evening.</li>
+      <li data-who="you">Open the Wikipedia page about owls.</li>
+      <li data-who="orbit">Opening en.wikipedia.org.</li>
+      <li data-who="you">Vault mode.</li>
+      <li data-who="orbit">Switching to vault mode. Ready.</li>
+      <li data-who="you">What did I write about the launch?</li>
+      <li data-who="orbit">Your launch note says ship on Friday, after the security review.</li>
+    </ol>
+  </section>
+
+  <section class="pipeline" aria-labelledby="pipe-title">
+    <p class="eyebrow">01 · Pipeline</p>
+    <h2 class="section__title" id="pipe-title">the words travel. your voice stays home.</h2>
+    <ol class="stations">
+      <li class="station">
+        <span class="station__tag">Mic</span>
+        <p class="station__name">your microphone</p>
+        <p class="station__note">Silero waits for 0.8 s of silence, then your turn is done.</p>
+      </li>
+      <li class="station station--local">
+        <span class="station__tag">Whisper · local</span>
+        <p class="station__name">speech to text</p>
+        <p class="station__note">Runs on your CPU. Audio never leaves the machine.</p>
+      </li>
+      <li class="station station--brain">
+        <span class="station__tag">Brain · yours</span>
+        <p class="station__name">the thinking</p>
+        <p class="station__note">Claude CLI, OpenRouter, Ollama or LM Studio. Only text is sent.</p>
+      </li>
+      <li class="station station--local">
+        <span class="station__tag">Kokoro · local</span>
+        <p class="station__name">text to voice</p>
+        <p class="station__note">Runs on your CPU, with the voice you pick.</p>
+      </li>
+      <li class="station">
+        <span class="station__tag">Speakers</span>
+        <p class="station__name">you hear it</p>
+        <p class="station__note">The orb page follows the loudness, live.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="modes" aria-labelledby="modes-title">
+    <p class="eyebrow">02 · Safety</p>
+    <h2 class="section__title" id="modes-title">two modes. never at the same time.</h2>
+    <div class="modes__grid">
+      <article class="card">
+        <h3 class="card__title">vault mode</h3>
+        <p class="card__tag">Read only</p>
+        <ul class="card__list">
+          <li>Reads and searches your notes folder, like an Obsidian vault.</li>
+          <li>Refuses files outside it, and <code>.env</code>, <code>.git</code>, <code>.ssh</code> inside it.</li>
+          <li>No web, no links, no browser.</li>
+        </ul>
+      </article>
+      <div class="modes__wall" aria-hidden="true"><span>Restart</span></div>
+      <article class="card">
+        <h3 class="card__title">web mode</h3>
+        <p class="card__tag">Search · links · own browser</p>
+        <ul class="card__list">
+          <li>Searches the web and reads pages out loud.</li>
+          <li>Opens links on your screen. Unknown sites wait for your “yes”.</li>
+          <li>Drives its own Edge window while you watch. No notes.</li>
+        </ul>
+      </article>
+    </div>
+    <p class="modes__note">Saying “vault mode” or “web mode” restarts the brain, so nothing read in one mode reaches the other. Only your spoken words switch modes, never a web page. Press <kbd>M</kbd> to mute the mic; it mutes itself while a video plays. <a href="https://github.com/hassayouneahmed/orbitvox/blob/main/SECURITY.md">Read the security model <span aria-hidden="true">→</span></a></p>
+  </section>
+
+  <section class="brains" aria-labelledby="brains-title">
+    <p class="eyebrow">03 · Brains</p>
+    <h2 class="section__title" id="brains-title">bring the one you already pay for.</h2>
+    <div class="table-wrap">
+      <table class="spec">
+        <thead>
+          <tr><th scope="col">Brain</th><th scope="col">Web &amp; browser</th><th scope="col">Notes</th><th scope="col">Runs on</th><th scope="col">Costs</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Claude <span class="spec__sub">your Claude Code login</span></th><td>Yes</td><td>Yes</td><td>Anthropic</td><td>Your plan’s limits</td></tr>
+          <tr><th scope="row">OpenRouter <span class="spec__sub">your API key</span></th><td class="spec__no">—</td><td class="spec__no">—</td><td>OpenRouter</td><td>Per token</td></tr>
+          <tr><th scope="row">OpenAI-compatible <span class="spec__sub">Ollama, LM Studio</span></th><td class="spec__no">—</td><td class="spec__no">—</td><td>Your machine</td><td>Free</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <dl class="stats">
+      <div class="stat"><dt class="stat__label">To first word · Claude, warm</dt><dd class="stat__value">~1 s</dd></div>
+      <div class="stat"><dt class="stat__label">Seconds of audio uploaded</dt><dd class="stat__value">0</dd></div>
+      <div class="stat"><dt class="stat__label">Brains supported</dt><dd class="stat__value">3</dd></div>
+    </dl>
+  </section>
+
+  <section class="start" id="start" aria-labelledby="start-title">
+    <h2 class="section__title" id="start-title">running in five minutes.</h2>
+    <p class="section__lede">Python 3.13, Node.js 18+, and for the Claude brain, Claude Code logged in with your own account.</p>
+    <figure class="code">
+      <figcaption class="code__bar">
+        <span class="code__label">PowerShell</span>
+        <button class="code__copy" type="button" data-copy="install" aria-live="polite">Copy</button>
+      </figcaption>
+<pre id="install"><code>git clone https://github.com/hassayouneahmed/orbitvox
+cd orbitvox
+py -3.13 -m venv .venv
+.\.venv\Scripts\pip install -r requirements.txt
+.\.venv\Scripts\python get_models.py
+cd browser; npm ci --ignore-scripts; cd ..
+copy .env.example .env
+.\.venv\Scripts\python bot.py</code></pre>
+    </figure>
+    <p class="start__after">Wait for <code>Claude: ready</code>, open <code>http://localhost:8765</code>, and say hello. Name it, give it a persona and your own orb in <code>.env</code> and <code>persona.txt</code>.</p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__statement">your voice stays on your machine. the brain is your call.</p>
+  <div class="footer__meta">
+    <span class="footer__brand">OrbitVox</span>
+    <a href="https://github.com/hassayouneahmed/orbitvox">GitHub</a>
+    <a href="https://github.com/hassayouneahmed/orbitvox/blob/main/LICENSE">MIT licence</a>
+    <a href="https://github.com/hassayouneahmed/orbitvox/blob/main/SECURITY.md">Security</a>
+    <span class="footer__credit">made by <span class="footer__name">Adonis_Helix</span></span>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>

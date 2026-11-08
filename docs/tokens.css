@@ -1,0 +1,65 @@
+/* Hallmark · tokens · theme: lumen (night foundry) */
+:root {
+  /* colour — night foundry */
+  --color-paper: oklch(13% 0.014 265);
+  --color-paper-2: oklch(16.5% 0.016 265);
+  --color-paper-3: oklch(20% 0.018 265);
+  --color-ink: oklch(96% 0.006 262);
+  --color-ink-2: oklch(84% 0.01 262);
+  --color-muted: oklch(71% 0.014 262);
+  --color-rule: oklch(96% 0.006 262 / 0.10);
+  --color-rule-2: oklch(96% 0.006 262 / 0.18);
+  --rule-blueprint: oklch(96% 0.006 262 / 0.04);
+  --color-accent: oklch(76% 0.17 50);
+  --color-accent-ink: oklch(18% 0.03 50);
+  --color-accent-2: oklch(68% 0.16 18);
+  --color-glow: oklch(80% 0.16 50 / 0.42);
+  --color-glow-2: oklch(80% 0.16 50 / 0.16);
+  --color-paper-emit: oklch(76% 0.17 50 / 0.05);
+  --color-card-emit: oklch(76% 0.17 50 / 0.05);
+  --color-card-emit-hover: oklch(76% 0.17 50 / 0.11);
+  --color-cool: oklch(80% 0.11 225);
+  --color-focus: oklch(82% 0.15 50);
+
+  /* type */
+  --font-display: "Instrument Serif", "Tiempos Headline", ui-serif, Georgia, serif;
+  --font-body: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-label: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --text-display: clamp(2.9rem, 5.2vw + 1rem, 5.6rem);
+  --text-3xl: clamp(2.1rem, 2.6vw + 1rem, 3.4rem);
+  --text-2xl: clamp(1.6rem, 1.4vw + 1rem, 2.2rem);
+  --text-stat: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+  --text-lg: 1.1875rem;
+  --text-md: 1rem;
+  --text-sm: 0.875rem;
+  --text-micro: 0.6875rem;
+  --tracking-micro: 0.10em;
+
+  /* space — 4 pt scale */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+  --space-4xl: 7rem;
+  --page-gutter: clamp(1rem, 4vw, 3rem);
+  --page-max: 72rem;
+
+  /* shape */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-short: 160ms;
+  --dur-mid: 220ms;
+  --dur-reveal: 320ms;
+  --dur-pulse: 4s;
+}

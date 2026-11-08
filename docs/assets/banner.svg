@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" width="1280" height="420" role="img" aria-labelledby="t d">
+<title id="t">OrbitVox</title>
+<desc id="d">The OrbitVox orb beside the words: let your agent speak out loud.</desc>
+<style>
+  .spin { animation: spin 28s linear infinite; transform-origin: 1080px 210px; }
+  .spinr { animation: spin 18s linear infinite reverse; transform-origin: 1080px 210px; }
+  .core { animation: breathe 4s ease-in-out infinite; transform-origin: 1080px 210px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes breathe { 50% { transform: scale(1.06); opacity: .92; } }
+  @media (prefers-reduced-motion: reduce) { .spin, .spinr, .core { animation: none; } }
+  .display { font-family: "Instrument Serif", Georgia, "Times New Roman", serif; letter-spacing: -1.5px; }
+  .mono { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; letter-spacing: 2.4px; }
+</style>
+<defs>
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M40 0H0V40" fill="none" stroke="#eef0f6" stroke-opacity=".05"/>
+  </pattern>
+  <radialGradient id="emit" cx="78%" cy="50%" r="40%">
+    <stop offset="0" stop-color="#f29a46" stop-opacity=".16"/><stop offset="1" stop-color="#f29a46" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="core" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#f6f4ee"/><stop offset=".3" stop-color="#ffc480"/>
+    <stop offset=".65" stop-color="#f29a46"/><stop offset="1" stop-color="#f29a46" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="1280" height="420" rx="18" fill="#0b0d14"/>
+<rect width="1280" height="420" rx="18" fill="url(#grid)"/>
+<rect width="1280" height="420" rx="18" fill="url(#emit)"/>
+
+<text class="mono" x="80" y="112" font-size="16" fill="#8e93a3">OPEN SOURCE · MIT · WINDOWS</text>
+<text class="display" x="76" y="200" font-size="74" fill="#eef0f6">let your agent</text>
+<text class="display" x="76" y="282" font-size="74" fill="#eef0f6"><tspan fill="#e8735f" text-decoration="underline">speak</tspan> out loud.</text>
+<text class="mono" x="80" y="344" font-size="16" fill="#8e93a3">LOCAL WHISPER · LOCAL KOKORO · YOUR BRAIN</text>
+
+<g class="spin" fill="none">
+  <circle cx="1080" cy="210" r="160" stroke="#f29a46" stroke-width="3" stroke-dasharray="16 10.4" opacity=".75"/>
+  <circle cx="1080" cy="50" r="6" fill="#ffc480"/>
+</g>
+<g class="spinr" fill="none">
+  <circle cx="1080" cy="210" r="120" stroke="#6cc7ee" stroke-width="2" stroke-dasharray="168 72" opacity=".8"/>
+  <circle cx="1200" cy="210" r="4.5" fill="#9ae4ff"/>
+</g>
+<g class="spin" fill="none">
+  <circle cx="1080" cy="210" r="88" stroke="#f29a46" stroke-width="1.2" stroke-dasharray="2 6" opacity=".55"/>
+</g>
+<circle class="core" cx="1080" cy="210" r="62" fill="url(#core)"/>
+</svg>
